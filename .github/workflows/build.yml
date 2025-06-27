@@ -32,10 +32,9 @@ jobs:
             --arch=x64 ^
             --out=release-build ^
             --prune=true
-            
-- name: Upload .exe as artifact
-  uses: actions/upload-artifact@v4
-  with:
-    name: WavePainter-win32
-    path: release-build/WavePainter-win32-x64/
-  
+
+      - name: Upload .exe as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: WavePainter-win32
+          path: release-build/WavePainter-win32-x64/
