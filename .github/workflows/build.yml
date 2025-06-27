@@ -1,0 +1,41 @@
+name: Build Electron App
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build frontend
+        run: npm run build
+
+      - name: Install electron-packager
+        run: npm install --save-dev electron-packager
+
+      - name: Package Electron app
+        run: |
+          npx electron-packager . WavePainter ^
+            --overwrite ^
+            --platform=win32 ^
+            --arch=x64 ^
+            --out=release-build ^
+            --prune=true
+
+      - name: Upload .exe as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: WavePainter-win32
+          path: release-build/WavePainter-win32-x64/
+  
